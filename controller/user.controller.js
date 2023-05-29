@@ -9,7 +9,7 @@ const dotenv = require('dotenv').config()
 
 
 exports.createUser = async (req, res) => {
-    let { full_name, company_name, company_address, email, mobile, password, photo } = req.body
+    let { full_name, company_name, company_address, email, mobile, password, photo, DOB } = req.body
 
     // let error_message = `please enter`
     // if (!first_name) {
@@ -46,6 +46,7 @@ exports.createUser = async (req, res) => {
         email: email,
         mobile: mobile,
         password: hashed_password,
+        DOB: DOB,
         photo: ''
     }).save()
         .then(async (success) => {
@@ -243,19 +244,19 @@ exports.deleteUser = async (req, res) => {
     // }
 
     const isUserFound = await userModel.findOneAndDelete({ userId: mongoose.Types.ObjectId(userId) })
-    .then((success)=>{
-        return res.json({
-            success: true,
-            message: "user deleted",
-            data:success
+        .then((success) => {
+            return res.json({
+                success: true,
+                message: "user deleted",
+                data: success
+            })
         })
-    })
-    .catch((error)=>{
-        return res.json({
-            success: true,
-            message: "something went wrong",
+        .catch((error) => {
+            return res.json({
+                success: true,
+                message: "something went wrong",
+            })
         })
-    })
 }
 
 /* ---------- remove profile image ------------ */

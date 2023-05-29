@@ -28,6 +28,9 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: ''
     },
+    DOB: {
+        type: Date,
+    },
     token: {
         type: String
     },
