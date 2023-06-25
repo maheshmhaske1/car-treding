@@ -11,24 +11,6 @@ const dotenv = require('dotenv').config()
 exports.createUser = async (req, res) => {
     let { full_name, company_name, company_address, email, mobile, password, photo, DOB } = req.body
 
-    // let error_message = `please enter`
-    // if (!first_name) {
-    //     error_message += `first name`
-    // }
-    // if (!mobile) {
-    //     error_message += `, mobile`
-    // }
-    // if (!password) {
-    //     error_message += `, password`
-    // }
-
-    // if (error_message !== "please enter") {
-    //     return res.json({
-    //         success: false,
-    //         message: error_message
-    //     })
-    // }
-
     const isUserFound = await userModel.findOne({ $or: [{ email: email }, { mobile: mobile }] })
     if (isUserFound) {
         return res.json({
@@ -39,6 +21,14 @@ exports.createUser = async (req, res) => {
 
     const hashed_password = await bcrypt.hash(password, 10);
 
+    if (!req.file)
+        return res.json({
+            status: false,
+            message: `please select image`,
+        });
+
+    const PAN = req.file.filename;
+    console.log("PAN==>", PAN)
     await new userModel({
         full_name: full_name,
         company_name: company_name,
@@ -47,11 +37,10 @@ exports.createUser = async (req, res) => {
         mobile: mobile,
         password: hashed_password,
         DOB: DOB,
-        photo: ''
+        photo: '',
+        Pan: PAN
     }).save()
         .then(async (success) => {
-            console.log("success ==>", success)
-
             const token = await jwtMiddleware.generate_token_user(success._id, success.mobile)
             console.log(token)
             await userModel.findOneAndUpdate(
@@ -197,19 +186,7 @@ exports.isUserExist = async (req, res) => {
 
 exports.getUser = async (req, res) => {
     let { userId } = req.params
-
-    // let error_message = `please enter`
-
-    // if (!username) {
-    //     error_message += `, email`
-    // }
-
-    // if (error_message !== "please enter") {
-    //     return res.json({
-    //         success: false,
-    //         message: error_message
-    //     })
-    // }
+console.log(userId)
 
     const isUserFound = await userModel.findOne({ userId: mongoose.Types.ObjectId(userId) })
     if (!isUserFound) {

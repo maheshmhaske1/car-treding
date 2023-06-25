@@ -10,6 +10,8 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var userSupport = require('./routes/support,.router');
 var feedback = require('./routes/feedbacks.router')
+var notification = require('./routes/notification.router')
+var auction = require('./routes/auction.router')
 
 var app = express();
 db.dbConnection()
@@ -35,6 +37,9 @@ app.use('/', indexRouter);
 app.use('/user', usersRouter);
 app.use('/support', userSupport);
 app.use('/feedback', feedback);
+app.use('/notification', notification);
+// app.use('/auction', auction);
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

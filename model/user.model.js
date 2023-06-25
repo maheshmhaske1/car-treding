@@ -31,9 +31,20 @@ const userSchema = new mongoose.Schema({
     DOB: {
         type: Date,
     },
+    Pan: {
+        type: String
+    },
     token: {
         type: String
     },
+    isApprovedByAdmin: {
+        type: Boolean,
+        default: false
+    },
+    userPaymentId: {
+        type: String,
+        default: ''
+    }
 
 })
 
