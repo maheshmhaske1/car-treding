@@ -38,7 +38,7 @@ app.use('/user', usersRouter);
 app.use('/support', userSupport);
 app.use('/feedback', feedback);
 app.use('/notification', notification);
-// app.use('/auction', auction);
+app.use('/auction', auction);
 
 
 // catch 404 and forward to error handler
