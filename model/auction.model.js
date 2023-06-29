@@ -26,9 +26,12 @@ const auctionSchema = new mongoose.Schema({
         type: Number,
         default: 20
     },
+    current_bidding_price: {
+        type: Number
+    },
     status: {
         type: Number, //1.pending 2.live 3.closed
-        default:1
+        default: 1
     }
 })
 

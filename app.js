@@ -12,6 +12,7 @@ var userSupport = require('./routes/support,.router');
 var feedback = require('./routes/feedbacks.router')
 var notification = require('./routes/notification.router')
 var auction = require('./routes/auction.router')
+var bid = require('./routes/bid.router')
 
 var app = express();
 db.dbConnection()
@@ -39,6 +40,7 @@ app.use('/support', userSupport);
 app.use('/feedback', feedback);
 app.use('/notification', notification);
 app.use('/auction', auction);
+app.use('/bid', bid);
 
 
 // catch 404 and forward to error handler

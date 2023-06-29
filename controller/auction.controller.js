@@ -1,5 +1,6 @@
 const { default: mongoose } = require('mongoose');
 const auctionModel = require('../model/auction.model');
+const { stat } = require('fs-extra');
 
 exports.createAuction = async (req, res) => {
     const { name, RC, loan_no, feul_type, starting_price } = req.body;
@@ -19,6 +20,7 @@ exports.createAuction = async (req, res) => {
         loan_no: loan_no,
         feul_type: feul_type,
         starting_price: starting_price,
+        current_bidding_price: starting_price
     });
 
     try {
@@ -38,8 +40,24 @@ exports.createAuction = async (req, res) => {
 
 exports.getAuctions = async (req, res) => {
     const { status } = req.params
+    console.log(typeof (Number(status)))
     try {
-        const auctions = await auctionModel.find({ status: status });
+        // const auctions = await auctionModel.find({ status: status });
+        const auctions = await auctionModel.aggregate([
+            {
+                $match: { status: Number(status) }
+            },
+            {
+                $lookup: {
+                    from: "bidders",
+                    localField: "_id",
+                    foreignField: "auctionId",
+                    as: "auction"
+                }
+            },
+          
+          
+        ])
         res.json({
             status: true,
             message: 'vehicle details',
@@ -72,7 +90,7 @@ exports.getAuctionById = async (req, res) => {
     } catch (error) {
         res.json({
             status: false,
-            message: "Something went wrong",error
+            message: "Something went wrong", error
         });
     }
 };
