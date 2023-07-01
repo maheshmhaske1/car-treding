@@ -1,24 +1,28 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
-const notificationSchema = new mongoose.Schema({
+const notificationSchema = new mongoose.Schema(
+  {
     to: {
-        type: mongoose.Types.ObjectId,
-        default: ''
+      type: mongoose.Types.ObjectId,
+      default: ''
     },
     title: {
-        type: String,
-        default: ''
+      type: String,
+      default: ''
     },
     body: {
-        type: String,
-        default: ''
+      type: String,
+      default: ''
     },
     isRead: {
-        type: Boolean,
-        default: false
+      type: Boolean,
+      default: false
     }
-})
+  },
+  {
+    timestamps: true // Add timestamps option to enable createdAt and updatedAt fields
+  }
+);
 
-
-var notificationModel = mongoose.model('notifications', notificationSchema);
+const notificationModel = mongoose.model('notifications', notificationSchema);
 module.exports = notificationModel;

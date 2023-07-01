@@ -188,7 +188,7 @@ exports.getUser = async (req, res) => {
     let { userId } = req.params
 console.log(userId)
 
-    const isUserFound = await userModel.findOne({ userId: mongoose.Types.ObjectId(userId) })
+    const isUserFound = await userModel.findById({ _id:userId})
     if (!isUserFound) {
         return res.json({
             success: false,
