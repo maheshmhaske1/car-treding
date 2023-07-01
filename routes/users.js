@@ -3,6 +3,7 @@ var router = express.Router();
 const userController = require('../controller/user.controller')
 const { upload_pan } = require('../middleware/upload')
 const { authenticate_user } = require('../middleware/auth')
+const watchListsController = require('../controller/watchLists.controleer')
 
 
 // /* GET users listing. */
@@ -17,5 +18,9 @@ router.get('/is-found/:username', userController.isUserExist)
 router.get('/get/:userId', userController.getUser)
 router.delete('/delete/:userId', userController.deleteUser)
 router.post('/reset-password', userController.resetPassword)
+
+router.post('/watchList/add', watchListsController.add)
+router.get('/watchList/get/:userId', watchListsController.getWatchlist)
+router.delete('/watchList/remove', watchListsController.removeWatchlist)
 
 module.exports = router;
