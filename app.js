@@ -33,6 +33,7 @@ app.use(cors({
 }))
 
 app.use('/profile_images', express.static(path.join(__dirname, 'public/profile_images'))) // PROFILE IMAGES
+app.use('/user/pan', express.static(path.join(__dirname, 'public/PAN'))) // PROFILE IMAGES
 
 app.use('/', indexRouter);
 app.use('/user', usersRouter);
