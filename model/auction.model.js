@@ -29,6 +29,17 @@ const auctionSchema = new mongoose.Schema({
     current_bidding_price: {
         type: Number
     },
+    cat: {
+        type: String
+    },
+    startDate: {
+        type: Date,
+        required: true
+    },
+    endDate: {
+        type: Date,
+        required: true
+    },
     status: {
         type: Number, //1.pending 2.live 3.closed
         default: 1

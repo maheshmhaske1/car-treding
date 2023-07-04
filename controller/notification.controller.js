@@ -212,3 +212,31 @@ exports.markAllNotificationAsRead = async (req, res) => {
         })
 
 }
+exports.getNotificationsByDate = async (req, res) => {
+    try {
+      const { date } = req.body;
+      
+      const parsedDate = new Date(date);
+      parsedDate.setHours(0, 0, 0, 0); // Set time to midnight for the specified date
+  
+      const notifications = await notificationModel.find({
+        createdAt: {
+          $gte: parsedDate,
+          $lt: new Date(parsedDate.getTime() + 24 * 60 * 60 * 1000) // Add 24 hours to include the whole day
+        }
+      });
+  
+      return res.status(200).json({
+        status: true,
+        message: 'Notifications fetched successfully',
+        data: notifications
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: false,
+        message: 'Something went wrong',
+        error: error.message
+      });
+    }
+  };
+  

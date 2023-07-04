@@ -3,7 +3,7 @@ const auctionModel = require('../model/auction.model');
 const { stat } = require('fs-extra');
 
 exports.createAuction = async (req, res) => {
-    const { name, RC, loan_no, feul_type, starting_price } = req.body;
+    const { name, RC, loan_no, feul_type, starting_price, startDate, endDate, cat } = req.body;
 
     if (!req.file)
         return res.json({
@@ -20,7 +20,10 @@ exports.createAuction = async (req, res) => {
         loan_no: loan_no,
         feul_type: feul_type,
         starting_price: starting_price,
-        current_bidding_price: starting_price
+        current_bidding_price: starting_price,
+        cat: cat,
+        startDate: startDate,
+        endDate: endDate
     });
 
     try {
@@ -55,8 +58,8 @@ exports.getAuctions = async (req, res) => {
                     as: "auction"
                 }
             },
-          
-          
+
+
         ])
         res.json({
             status: true,

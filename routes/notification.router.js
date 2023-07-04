@@ -7,5 +7,6 @@ router.post('/add', notification.createNotification)
 router.post('/get', notification.getNotification)
 router.post('/mark-read', notification.markNotificationAsRead)
 router.post('/mark-all-read', notification.markAllNotificationAsRead)
+router.post('/get-byDate', notification.getNotificationsByDate)
 
 module.exports = router

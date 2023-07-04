@@ -70,6 +70,55 @@ exports.createUser = async (req, res) => {
         })
 }
 
+exports.updateUser = async (req, res) => {
+    const { userId } = req.params
+    const { full_name, company_name, company_address, email, mobile, DOB } = req.body
+
+
+    if (!userId)
+        return res.json({
+            status: false,
+            message: `please select user_id`,
+        })
+
+    const users = await userModel.findById({ _id: userId })
+    if (users == null || !users)
+        return res.json({
+            status: false,
+            message: `invalid user_id`
+        })
+
+    const displayPhoto = req.file.filename
+    await userModel.findOneAndUpdate({
+        _id: mongoose.Types.ObjectId(userId)
+    },
+        {
+            $set: {
+                full_name: full_name,
+                company_name: company_name,
+                company_address: company_address,
+                email: email,
+                mobile: mobile,
+                password: hashed_password,
+                DOB: DOB,
+                Pan: displayPhoto
+            }
+        })
+        .then((success) => {
+            return res.json({
+                success: true,
+                message: `user updated`,
+                data: success
+            })
+        })
+        .catch((error) => {
+            return res.json({
+                success: false,
+                message: "something went wrong", error
+            })
+        })
+}
+
 exports.login = async (req, res) => {
     let { username, password } = req.body
 
@@ -186,9 +235,9 @@ exports.isUserExist = async (req, res) => {
 
 exports.getUser = async (req, res) => {
     let { userId } = req.params
-console.log(userId)
+    console.log(userId)
 
-    const isUserFound = await userModel.findById({ _id:userId})
+    const isUserFound = await userModel.findById({ _id: userId })
     if (!isUserFound) {
         return res.json({
             success: false,
@@ -204,6 +253,7 @@ console.log(userId)
     }
 
 }
+
 exports.deleteUser = async (req, res) => {
     let { userId } = req.params
 
